@@ -1,5 +1,5 @@
 # AOC Day 2
-# 
+#
 # parse data to an array
 with open('day-2/input.txt') as f:
     lines = f.readlines()
@@ -45,14 +45,15 @@ outcomes = {
     },
 }
 
+
 def calculate_score(data):
     score = 0
     for game in data:
-        opponent = game[0]
-        player = game[1]
+        opponent, player = game
         outcome = outcomes[opponent][player]
-        score += result[outcome] + values[game[1]]
+        score += result[outcome] + values[player]
     return score
+
 
 weakness = {
     "A": "B",
@@ -64,6 +65,7 @@ strength = {
     "C": "B",
     "A": "C"
 }
+
 
 def calculate_score_new_strategy(data):
     score = 0
