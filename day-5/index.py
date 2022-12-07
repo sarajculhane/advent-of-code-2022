@@ -28,9 +28,8 @@ def get_start_stacks(stacks):
     for i in range(len(numbered[0]) + 1):
         col = []
         for item in stacks:
-            if len(item) > i:
-                if item[i] != '-':
-                    col.append(item[i])
+            if len(item) > i and item[i] != '-':
+                col.append(item[i])
         if len(col):
             parsed_stacks.append(col)
     [item.reverse() for item in parsed_stacks]
@@ -80,6 +79,17 @@ class Stack:
 
     def get(self):
         return self.stack
+    def pop_many(self, num):
+        popped = []
+        for _ in range(num):
+            popped.append(self.stack.pop())
+            # print(self.stack.pop())
+        print(popped, 'pop')
+        return popped
+    def size(self):
+        return len(self.stack)
+    def push_many(self, items):
+        self.stack.extend(items)
 
 
 def stackify(stacks):
@@ -89,16 +99,11 @@ def stackify(stacks):
 # map each item in list to a stack
 new_stacks = stackify(parsed_stacks)
 
-
-def rearrange(stacks):
-    movement = get_actions(data)
-    [move_items(movement, new_stacks) for move in movement]
-
-
 def move_items(move, stacks):
     start_stack = stacks[move["start"]]
     target_stack = stacks[move["target"]]
     moves = move["total_moves"]
+
     for _ in range(moves):
         popped = start_stack.pop()
         target_stack.push(popped)
@@ -119,6 +124,26 @@ def peek_all(stacks):
     string = ''
     for i in range(len(copy_stacks)):
         string += copy_stacks[i].peek()
+        print(copy_stacks[i])
     return string
 
 # Question 2 - Multiple items at once
+
+
+
+
+def move_many_items(move, stacks):
+    start_stack = stacks[move["start"]]
+    target_stack = stacks[move["target"]]
+    moves = move["total_moves"]
+    popped = start_stack.pop_many(moves)
+    popped.reverse()
+    target_stack.push_many(popped)
+
+def rearrange_stacks_many(stacks):
+    moves = get_actions(data)
+
+    [move_many_items(move, stacks) for move in moves]
+
+rearrange_stacks_many(new_stacks)
+
